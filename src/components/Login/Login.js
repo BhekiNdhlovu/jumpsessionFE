@@ -1,19 +1,31 @@
 import React, { useRef, useState } from "react"
 import { Form, Button, Alert } from "react-bootstrap"
 import "./Login.css"
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
-export default function Signup() {
+export default function Login() {
     const emailRef = useRef()
     const passwordRef = useRef()
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
+    const history = useHistory();
 
 
     async function handleSubmit(e) {
         e.preventDefault()
-        console.log("submitted")
-        console.log(emailRef.current.value)
-        console.log(passwordRef.current.value)
+        // console.log("submitted")
+        // console.log(emailRef.current.value)
+        // console.log(passwordRef.current.value)
+        let loginrequest = {
+                username: emailRef.current.value,
+                password: passwordRef.current.value
+        }
+
+        history.push("/home");
+        //continue posting axios request
+        axios.post('http://localhost:3000/login/', loginrequest)
+            .then(function (response) {
+                // console.log(response.body);
+            })
     }
 
     return (
@@ -33,7 +45,7 @@ export default function Signup() {
                                         <div style={{width:"70%",margin:"auto"}}>
                                             <Form.Label className="label">Email</Form.Label>
                                         </div>
-                                        <Form.Control type="email" ref={emailRef} style={{width:"70%",margin:"auto"}} required />
+                                        <Form.Control ref={emailRef} style={{width:"70%",margin:"auto"}} required />
                                     </Form.Group>
                                     <Form.Group id="password">
                                         <div style={{width:"70%",margin:"auto"}}>
